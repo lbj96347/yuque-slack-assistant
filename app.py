@@ -27,7 +27,7 @@ def test():
     return 'post to slack'
 
 def post_to_slack(doc_title, doc_slug, repo_title, repo_slug):
-    slack_webhook_url = SLACK_WEBHOOK
+    slack_webhook_url = config.SLACK_WEBHOOK
     msg_text = " *Document:* <https://www.yuque.com/kiwi/%s/%s|%s> has been updated :star: " %(repo_slug, doc_slug, doc_title) 
     repo_text = "Repo: %s" %( repo_title )
     print(msg_text)
