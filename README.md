@@ -12,6 +12,11 @@ Replace `SLACK_WEBHOOK` in `config.temp.py` , you can check it out from your Sla
 
 *** Develop ***
 
+> git clone 
+
+> virtualenv env 
+
+> 
 
 *** Deploy ***
 
