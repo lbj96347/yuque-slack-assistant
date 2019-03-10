@@ -48,5 +48,6 @@ Roadmap
 =========
 
 * 0.1.x: Integrate with Yuque & Slack webhook
-* 0.2.x: Production mode configure
+* 0.2.1: Production mode configure
+* 0.2.2: Add redirect url in slack
 * 0.3.x: Slack commands 
