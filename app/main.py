@@ -58,3 +58,6 @@ def post_to_slack(doc_title, doc_slug, repo_title, repo_slug):
         json=req_data
     )
 
+if __name__ == "__main__":
+    # Only for debugging while developing
+    app.run(host='0.0.0.0', debug=True, port=5000)
