@@ -1,6 +1,6 @@
 import requests 
 import config
-from flask import Flask, request, jsonify, json 
+from flask import Flask, request, jsonify, redirect, json 
 
 app = Flask(__name__)
 
@@ -25,6 +25,14 @@ def slack_hook():
 def test():
     post_to_slack("Test Document", "tsmv86", "Mesh 产品内部文档", "product")
     return 'post to slack'
+
+@app.route('/auth_test')
+def auth():
+    return redirect("https://slack.com/oauth/authorize?client_id=[YOUR_CLIENT_ID]&scope=incoming-webhook")
+
+@app.route('/auth_test', methods=['POST'])
+def auth_access():
+    return 'get slack auth'
 
 def post_to_slack(doc_title, doc_slug, repo_title, repo_slug):
     slack_webhook_url = config.SLACK_WEBHOOK
