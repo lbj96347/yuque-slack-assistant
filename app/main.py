@@ -28,7 +28,20 @@ def test():
 
 @app.route('/auth_test')
 def auth():
-    return redirect("https://slack.com/oauth/authorize?client_id=[YOUR_CLIENT_ID]&scope=incoming-webhook")
+    # can get the code from second time request 
+    code = request.args.get('code')
+    state = request.args.get('state')
+    if not code and not state :
+        request_url = "https://slack.com/oauth/authorize?client_id=%s&scope=incoming-webhook" %(config.SLACK_CLIENT_ID) 
+        return redirect(request_url)
+    else:
+        print("request access token")
+        obtain_access_token = "https://slack.com/api/oauth.access?client_id=%s&client_secret=%s&code=%s" %(config.SLACK_CLIENT_ID, config.SLACK_CLIENT_SECRET, code) 
+        payload = requests.get(
+            obtain_access_token
+        )
+        print(payload)
+        return code  
 
 @app.route('/auth_test', methods=['POST'])
 def auth_access():
