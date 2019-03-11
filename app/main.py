@@ -8,6 +8,11 @@ app = Flask(__name__)
 def hello():
     return 'Hey! Here is Yuque-Slack App.'
 
+@app.route('/post-to-slack')
+def test():
+    post_to_slack("Test Document Title", "test", "Test Repo", "product", "kiwi")
+    return 'post to slack'
+
 @app.route('/slack-webhook', methods = ['POST'])
 def slack_hook():
     update_data = request.get_data()
@@ -21,11 +26,6 @@ def slack_hook():
     print(doc_title, doc_slug, repo_title, repo_slug, login_group)
     post_to_slack( doc_title, doc_slug, repo_title, repo_slug , login_group)
     return 'slack hook info' 
-
-@app.route('/post-to-slack')
-def test():
-    post_to_slack("Test Document Title", "test", "Test Repo", "product", "kiwi")
-    return 'post to slack'
 
 @app.route('/auth_test')
 def auth():
@@ -45,10 +45,6 @@ def auth():
         # the next step is cache slack hooks url and binding with yuque hook url
         print(json.loads(payload.text))
         return code  
-
-@app.route('/auth_test', methods=['POST'])
-def auth_access():
-    return 'get slack auth'
 
 def post_to_slack(doc_title, doc_slug, repo_title, repo_slug, login_group):
     slack_webhook_url = config.SLACK_WEBHOOK
