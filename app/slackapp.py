@@ -24,26 +24,27 @@ def post_to_slack(doc_title, doc_slug, repo_title, repo_slug, login_group):
     repo_text = "Repo: %s" %( repo_title )
     print(msg_text)
     req_data = {
-        "blocks": [
-            {
-                "type": "divider"
-            },{
-              "type": "section",
-              "text": {
-                "type": "mrkdwn",
-                "text": msg_text 
-              }
-            },{
-		"type": "context",
-		"elements": [
-			{
-                            "type": "plain_text",
-                            "text": repo_text ,
-                            "emoji": True 
-			}
-		]
-	    }
-        ]
+                "text": "%s ✍️" %(doc_title), 
+                "blocks": [
+                    {
+                        "type": "divider"
+                    },{
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": msg_text 
+                        }
+                    },{
+                        "type": "context",
+                        "elements": [
+                            {
+                                "type": "plain_text",
+                                "text": repo_text ,
+                                "emoji": True 
+                            }
+                        ]
+	                }
+                ]
     }
     requests.post(
         slack_webhook_url,
