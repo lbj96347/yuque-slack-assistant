@@ -12,7 +12,8 @@ def hello():
 
 @app.route('/post-to-slack')
 def test():
-    slackapp.post_to_slack("Test Document Title", 
+    channel = request.args.get('channel', default = 'mesh-doc-monitoring', type = str)
+    slackapp.post_to_slack(channel, "Test Document Title", 
             "test", 
             "Test Repo", 
             "product", 
@@ -21,9 +22,10 @@ def test():
 
 @app.route('/slack-webhook', methods = ['POST'])
 def slack_hook():
+    channel = request.args.get('channel', default = 'mesh-doc-monitoring', type = str)
     update_data = request.get_data()
     info = yuqueapp.extract_yuque_update(update_data)
-    slackapp.post_to_slack( info['doc_title'], 
+    slackapp.post_to_slack( channel, info['doc_title'], 
             info['doc_slug'], 
             info['repo_title'], 
             info['repo_slug'] , 

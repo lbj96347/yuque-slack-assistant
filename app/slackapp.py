@@ -18,37 +18,39 @@ def get_auth_info(code, state):
         return code  
 
 
-def post_to_slack(doc_title, doc_slug, repo_title, repo_slug, login_group):
-    slack_webhook_url = config.SLACK_WEBHOOK
-    msg_text = " *Document:* <https://www.yuque.com/%s/%s/%s|%s> has been updated :star: " %(login_group, repo_slug, doc_slug, doc_title) 
-    repo_text = "Repo: %s" %( repo_title )
-    print(msg_text)
-    req_data = {
-                "text": "%s ✍️" %(doc_title), 
-                "blocks": [
-                    {
-                        "type": "divider"
-                    },{
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": msg_text 
-                        }
-                    },{
-                        "type": "context",
-                        "elements": [
-                            {
-                                "type": "plain_text",
-                                "text": repo_text ,
-                                "emoji": True 
+def post_to_slack(channel, doc_title, doc_slug, repo_title, repo_slug, login_group):
+    if channel in config.CHANNELS:
+        slack_webhook_url = config.CHANNELS[channel]
+        msg_text = " *Document:* <https://www.yuque.com/%s/%s/%s|%s> has been updated :star: " %(login_group, repo_slug, doc_slug, doc_title) 
+        repo_text = "Repo: %s" %( repo_title )
+        print(msg_text)
+        req_data = {
+                    "text": "%s ✍️" %(doc_title), 
+                    "blocks": [
+                        {
+                            "type": "divider"
+                        },{
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": msg_text 
                             }
-                        ]
-	                }
-                ]
-    }
-    requests.post(
-        slack_webhook_url,
-        json=req_data
-    )
-
-
+                        },{
+                            "type": "context",
+                            "elements": [
+                                {
+                                    "type": "plain_text",
+                                    "text": repo_text ,
+                                    "emoji": True 
+                                }
+                            ]
+                        }
+                    ]
+        }
+        requests.post(
+            slack_webhook_url,
+            json=req_data
+        )
+    else:
+        print('can not find channel in config')
+        return None
